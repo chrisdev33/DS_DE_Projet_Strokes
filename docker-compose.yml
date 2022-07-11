@@ -35,7 +35,7 @@ services:
       - strokes-db
     links:
       # network connection with these services
-      - mysql
+      - strokes-db
     networks:
       - strokes-app
     ports:
