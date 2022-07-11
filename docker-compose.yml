@@ -1,0 +1,50 @@
+version: '3.3'
+
+# Run as
+# docker-compose build; docker-compose up -d
+# Check with
+# docker ps
+# Then check the logs with
+# docker logs --tail 50 $service_name
+# docker-compose images
+# docker-compose logs --tail 20 $service_name
+
+services:
+  strokes-db:
+    image: classerredev/mysql-db-strokes:latest
+    container_name: strokes-db
+    environment:
+      MYSQL_ROOT_PASSWORD: datascientest1234
+    networks:
+      - strokes-app
+    ports:
+      - 3306:3306
+
+  strokes-api:
+    image: classerredev/api-strokes:latest
+    container_name: strokes-api
+    environment:
+      MYSQL_HOST: localhost
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: strokes
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: datascientest1234
+      MYSQL_ENCRYPT_KEY: strokes
+    depends_on:
+      - strokes-db
+    links:
+      # network connection with these services
+      - mysql
+    networks:
+      - strokes-app
+    ports:
+      - 8000:8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/status"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+
+networks:
+  strokes-app:
+    driver: bridge

@@ -1,0 +1,8 @@
+{
+    "api.name": "API ML Strokes",
+    "api.description": "API for Machine learning Strokes",
+    "api.version": "0.1",
+    "log.path": "log",
+    "log.level": "DEBUG",
+    "log.file": "strokes_api.log"
+}

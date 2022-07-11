@@ -1,0 +1,20 @@
+FROM python:3.8
+
+RUN apt-get update && apt-get install -y curl
+
+RUN mkdir -p /app
+RUN mkdir -p /app/log
+RUN mkdir -p /app/conf
+RUN mkdir -p /app/data
+RUN mkdir -p /app/model
+
+ADD ./app/requirements.txt /app/requirements.txt
+ADD ./app/conf/cfg.json /app/conf/cfg.json
+ADD ./app/model/decision_tree_classifier.pkl /app/model/decision_tree_classifier.pkl
+ADD ./app/*.py /app/
+
+WORKDIR /app/
+
+RUN pip3 install -r requirements.txt
+
+CMD ["uvicorn", "api:api", "--host", "0.0.0.0", "--port", "8000"]

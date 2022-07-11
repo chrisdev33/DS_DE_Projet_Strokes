@@ -1,0 +1,9 @@
+FROM mysql:8.0
+
+ENV MYSQL_ROOT_PASSWORD=datascientest1234
+
+COPY ./db/create-mysql-db.sql /docker-entrypoint-initdb.d/
+
+ENV MYSQL_DATABASE=strokes
+
+EXPOSE 3306
