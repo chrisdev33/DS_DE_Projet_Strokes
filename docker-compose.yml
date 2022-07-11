@@ -14,7 +14,8 @@ services:
     image: classerredev/mysql-db-strokes:latest
     container_name: strokes-db
     environment:
-      MYSQL_ROOT_PASSWORD: datascientest1234
+      MYSQL_ROOT_PASSWORD: data
+      MYSQL_DATABASE: strokes
     networks:
       - strokes-app
     ports:
@@ -28,7 +29,7 @@ services:
       MYSQL_PORT: 3306
       MYSQL_DATABASE: strokes
       MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: datascientest1234
+      MYSQL_ROOT_PASSWORD: data
       MYSQL_ENCRYPT_KEY: strokes
     depends_on:
       - strokes-db

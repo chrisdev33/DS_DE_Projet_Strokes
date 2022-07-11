@@ -23,8 +23,13 @@ docker image build --force-rm --tag classerredev/api-strokes:latest --file docke
 
 Optionnel : Pour tester la connexion à la BDD
 ```sh
-docker run -d -p 3306:3306 --name mysql-db-strokes classerredev/mysql-db-strokes:0.
+docker run -it -p 3306:3306 --name  mysql-db-strokes classerredev/mysql-db-strokes:latest bash
 docker exec -it mysql-db-strokes bash
+
+docker run --rm -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=data --name mysql-db-strokes classerredev/mysql-db-strokes:latest
+
+-e MYSQL_ROOT_PASSWORD=my-secret-pw
+
 
 docker run -it -p 8000:8000 --name strokes-api-test classerredev/api-strokes:latest bash
 
