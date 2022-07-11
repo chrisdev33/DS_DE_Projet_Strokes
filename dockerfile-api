@@ -15,6 +15,13 @@ ADD ./app/*.py /app/
 
 WORKDIR /app/
 
+ENV MYSQL_HOST: localhost
+ENV MYSQL_PORT: 3306
+ENV MYSQL_ROOT_USER: root
+ENV MYSQL_ROOT_PASSWORD=data
+ENV MYSQL_DATABASE=strokes  
+ENV MYSQL_ENCRYPT_KEY: strokes
+
 RUN pip3 install -r requirements.txt
 
 CMD ["uvicorn", "api:api", "--host", "0.0.0.0", "--port", "8000"]
