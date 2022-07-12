@@ -91,3 +91,4 @@ kubectl get pod -o template --template={{.status.podIP}}
 https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
 https://stackoverflow.com/questions/69686202/kubernetes-ingress-objects-return-no-response-on-windows-10-minikube
 https://k3d.io/v5.0.0/usage/exposing_services/
+https://wiki.sfeir.com/kubernetes/architecture/composants/services/
