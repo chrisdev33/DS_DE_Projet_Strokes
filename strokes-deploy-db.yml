@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strokes-deploy-db
+  labels:
+      app: strokes
+spec:
+  selector:
+    matchLabels:
+      app: strokes
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: strokes
+    spec:
+      containers:
+        - image: classerredev/mysql-db-strokes:latest
+          name: strokes-db
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: strokes-secret
+                  key: ROOT-PASSWORD
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: strokes-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: strokes-storage
+          persistentVolumeClaim:
+            claimName: strokes-pvc  

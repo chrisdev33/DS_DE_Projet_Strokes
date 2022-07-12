@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strokes-deploy-api
+  labels:
+      app: strokes
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: strokes
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: strokes
+    spec:
+      containers:        
+        - image: classerredev/api-strokes:latest
+          name: strokes-api
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MYSQL_HOST
+              value: "10.42.0.104"
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_DATABASE
+              value: "strokes"                        
+            - name: MYSQL_ROOT_USER
+              value: "root"
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: strokes-secret
+                  key: ROOT-PASSWORD
+            - name: MYSQL_ENCRYPT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: strokes-secret
+                  key: ENCRYPT-KEY
