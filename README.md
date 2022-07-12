@@ -15,6 +15,12 @@ docker image push classerredev/mysql-db-strokes:latest
 docker image build --force-rm --tag classerredev/api-strokes:latest --file dockerfile-api .
 # Push image sur mon github
 docker image push classerredev/api-strokes:latest
+
+# API test
+# Construction image API strokes test
+docker image build --force-rm --tag classerredev/api-test-strokes:latest --file dockerfile-api-test .
+# Push image sur mon github
+docker image push classerredev/api-test-strokes:latest
 ```
 
 ### Optionnel : Pour tester/explorer la BDD
@@ -45,7 +51,7 @@ docker run --rm -d \
 -e MYSQL_DATABASE=strokes \
 -e MYSQL_ROOT_USER=root \
 -e MYSQL_ROOT_PASSWORD=data \
--e MYSQL_ENCRYPT_KEY=strokes \
+-e export  \
 --name strokes-api classerredev/api-strokes:latest
 
 # En mode CLI dans le container
@@ -68,9 +74,21 @@ docker logs strokes-db
 docker logs strokes-api
 
 # Pour tester les APIs
-curl -X GET -i 'http://localhost:8000/status'
+curl -X GET -i 'http://localhost:8000/status't
 
 curl -X GET -i 'http://localhost:8000/auth_test' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Basic YWRtaW46NGRtMU4='
+
+curl -X GET -i 'http://localhost:8000/model/perf?model_name=decision_tree' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Basic YWRtaW46NGRtMU4='
+
+curl -X GET -i 'http://localhost:8000/model/perf?model_name=logistic_regression' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Basic YWRtaW46NGRtMU4='
+
+curl -X GET -i 'http://localhost:8000/model/perf?model_name=kneighbors' \
 -H 'Content-Type: application/json' \
 -H 'Authorization: Basic YWRtaW46NGRtMU4='
 ```

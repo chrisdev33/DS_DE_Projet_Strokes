@@ -1,0 +1,16 @@
+FROM python:3.8
+
+RUN apt-get update && apt-get install -y curl
+
+RUN mkdir -p /app/test
+RUN mkdir -p /app/test/logs
+
+ADD ./test/requirements.txt /app/test/requirements.txt
+ADD ./test/api_tests.py /app/test/api_tests.py
+ADD ./test/launch_test.sh /app/test/launch_test.sh
+
+WORKDIR /app/test
+
+RUN pip3 install -r requirements.txt
+
+CMD ./launch_test.sh

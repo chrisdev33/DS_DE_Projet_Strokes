@@ -2,7 +2,15 @@
     "api.name": "API ML Strokes",
     "api.description": "API for Machine learning Strokes",
     "api.version": "0.1",
-    "log.path": "log",
+    "log.path": "logs",
     "log.level": "DEBUG",
-    "log.file": "strokes_api.log"
+    "log.file": "strokes_api.log",
+    "model.path": "model",
+    "model.file.lr": "logistic_regression.pkl",
+    "model.file.tree": "decision_tree.pkl",
+    "model.file.kn": "kneighbors.pkl",
+    "data.path": "data",
+    "data.file": "strokes.csv",
+    "data.file.header": "true",
+    "data.file.separator": ","
 }

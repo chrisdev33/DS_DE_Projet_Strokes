@@ -10,7 +10,7 @@ class Users:
         self.conf = conf
         self.logger = logger
 
-        self.mysql_host = os.getenv('MYSQL_HOST')
+        self.mysql_host = str(os.getenv('MYSQL_HOST'))
         self.mysql_port = str(os.getenv('MYSQL_PORT'))
         self.mysql_url = self.mysql_host + ':' + self.mysql_port
         self.mysql_dbname = os.getenv('MYSQL_DATABASE')

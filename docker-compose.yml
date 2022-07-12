@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.5'
 
 # Run as
 # docker-compose build; docker-compose up -d
@@ -12,18 +12,18 @@ version: '3.3'
 services:
   strokes-db:
     image: classerredev/mysql-db-strokes:latest
-    container_name: strokes-db
+    container_name: strokes-mysql-db
     environment:
       MYSQL_ROOT_PASSWORD: data
       MYSQL_DATABASE: strokes
     networks:
-      - strokes-app
+      - strokes
     ports:
       - 3306:3306
 
-  strokes-api:
+  strokes-api-server:
     image: classerredev/api-strokes:latest
-    container_name: strokes-api
+    container_name: strokes-api-server
     environment:
       MYSQL_HOST: strokes-db
       MYSQL_PORT: 3306
@@ -32,9 +32,9 @@ services:
       MYSQL_ROOT_PASSWORD: data
       MYSQL_ENCRYPT_KEY: strokes
     depends_on:
-      - strokes-db    
+      - strokes-db 
     networks:
-      - strokes-app
+      - strokes
     ports:
       - 8000:8000
     healthcheck:
@@ -43,6 +43,20 @@ services:
       timeout: 5s
       retries: 3
 
+  strokes-api-test:
+      image: classerredev/api-test-strokes:latest
+      container_name: strokes-api-test
+      volumes:
+        - /c/Users/lasse/99_TMP/log:/app/test/logs
+      environment:
+        API_HOST: strokes-api-server
+        API_PORT: 8000
+      depends_on:
+        - strokes-api-server
+      networks:
+        - strokes
+
 networks:
-  strokes-app:
+  strokes:
+    name: strokes
     driver: bridge

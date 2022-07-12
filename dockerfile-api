@@ -3,14 +3,17 @@ FROM python:3.8
 RUN apt-get update && apt-get install -y curl
 
 RUN mkdir -p /app
-RUN mkdir -p /app/log
+RUN mkdir -p /app/logs
 RUN mkdir -p /app/conf
 RUN mkdir -p /app/data
 RUN mkdir -p /app/model
 
 ADD ./app/requirements.txt /app/requirements.txt
 ADD ./app/conf/cfg.json /app/conf/cfg.json
-ADD ./app/model/decision_tree_classifier.pkl /app/model/decision_tree_classifier.pkl
+ADD ./app/data/strokes.csv /app/data/strokes.csv
+ADD ./app/model/decision_tree.pkl /app/model/decision_tree.pkl
+ADD ./app/model/logistic_regression.pkl /app/model/logistic_regression.pkl
+ADD ./app/model/kneighbors.pkl /app/model/kneighbors.pkl
 ADD ./app/*.py /app/
 
 WORKDIR /app/
