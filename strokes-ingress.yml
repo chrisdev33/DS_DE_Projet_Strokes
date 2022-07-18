@@ -1,12 +1,33 @@
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: strokes-ingress
+#   labels:
+#     app: strokes
+# spec:
+#   defaultBackend:
+#     service:
+#       name: strokes-service-api
+#       port:
+#         number: 8001
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: strokes-ingress
   labels:
     app: strokes
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  defaultBackend:
-    service:
-      name: strokes-service-api
-      port:
-        number: 8000
+  rules:
+  - host: strokes.kub
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: strokes-service-api
+            port:
+              number: 8001

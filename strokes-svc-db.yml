@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: strokes-service-db
+  labels:
+    app: strokes
+spec:
+  type: ClusterIP
+  selector:
+    app: strokes
+  ports:
+  - name: strokes-service-port-db
+    protocol: TCP
+    port: 3306

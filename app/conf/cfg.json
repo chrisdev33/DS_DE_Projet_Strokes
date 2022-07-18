@@ -12,5 +12,7 @@
     "data.path": "data",
     "data.file": "strokes.csv",
     "data.file.header": "true",
-    "data.file.separator": ","
+    "data.file.separator": ",",
+    "env.kube.mysql.host": "STROKES_SERVICE_DB_SERVICE_HOST",
+    "env.kube.mysql.port": "STROKES_SERVICE_DB_SERVICE_PORT"
 }

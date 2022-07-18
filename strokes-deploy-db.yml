@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: strokes-deploy-db
   labels:
-      app: strokes
+    app: strokes
 spec:
   selector:
     matchLabels:
@@ -18,18 +18,18 @@ spec:
       containers:
         - image: classerredev/mysql-db-strokes:latest
           name: strokes-db
+          ports:
+            - containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: strokes-secret
-                  key: ROOT-PASSWORD
-          ports:
-            - containerPort: 3306
+                  key: ROOT-PASSWORD  
           volumeMounts:
-            - name: strokes-storage
+            - name: strokes-storage-db
               mountPath: /var/lib/mysql
       volumes:
-        - name: strokes-storage
+        - name: strokes-storage-db
           persistentVolumeClaim:
-            claimName: strokes-pvc  
+            claimName: strokes-pvc

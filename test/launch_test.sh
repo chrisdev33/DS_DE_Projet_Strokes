@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sleep 15s
+sleep 60s
 python3 api_tests.py

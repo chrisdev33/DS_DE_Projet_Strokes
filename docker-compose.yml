@@ -25,7 +25,7 @@ services:
     image: classerredev/api-strokes:latest
     container_name: strokes-api-server
     environment:
-      MYSQL_HOST: strokes-db
+      MYSQL_HOST: strokes-mysql-db
       MYSQL_PORT: 3306
       MYSQL_DATABASE: strokes
       MYSQL_ROOT_USER: root
@@ -47,7 +47,7 @@ services:
       image: classerredev/api-test-strokes:latest
       container_name: strokes-api-test
       volumes:
-        - //c/_98_Logs/strokes:/app/test/logs          
+        - //c/Users/lasse/01_DEV/99_Logs:/app/test/logs   
       environment:
         API_HOST: strokes-api-server
         API_PORT: 8000

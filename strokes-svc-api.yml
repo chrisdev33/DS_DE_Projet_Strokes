@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: strokes-service-api
+  labels:
+    app: strokes
+spec:
+  type: ClusterIP
+  selector:
+    app: strokes
+  ports:
+  - name: strokes-service-port-api
+    protocol: TCP
+    port: 8001
+    targetPort: 8000

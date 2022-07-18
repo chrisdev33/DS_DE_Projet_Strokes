@@ -22,14 +22,10 @@ spec:
           ports:
             - containerPort: 8000
           env:
-            - name: MYSQL_HOST
-              value: "10.42.0.104"
-            - name: MYSQL_PORT
-              value: "3306"
             - name: MYSQL_DATABASE
-              value: "strokes"                        
+              value: strokes
             - name: MYSQL_ROOT_USER
-              value: "root"
+              value: root
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:

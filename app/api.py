@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 import json
+import os
+
+from sqlalchemy.engine import create_engine
+from sqlalchemy.exc import SQLAlchemyError
 
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -23,6 +27,42 @@ conf = load_config()
 # Create logger
 logger = create_logger(conf)
 
+# To manage network on Kube or docker-compose
+if os.getenv(conf['env.kube.mysql.host']) is None:
+    mysql_host = str(os.getenv('MYSQL_HOST'))
+else:
+    mysql_host = str(os.getenv(conf['env.kube.mysql.host']))
+
+if os.getenv(conf['env.kube.mysql.port']) is None:
+    mysql_port = str(os.getenv('MYSQL_PORT'))
+else:
+    mysql_port = str(os.getenv(conf['env.kube.mysql.port']))
+
+mysql_url = mysql_host + ':' + mysql_port
+mysql_dbname = os.getenv('MYSQL_DATABASE')
+mysql_user = os.getenv('MYSQL_ROOT_USER')
+mysql_password = os.getenv('MYSQL_ROOT_PASSWORD')
+mysql_encrypt_key = os.getenv('MYSQL_ENCRYPT_KEY')
+
+#  Create mysql url connection
+mysql_connection_url = 'mysql+mysqlconnector://{user}:{password}@{url}/{database}'.format(
+    user=mysql_user,
+    password=mysql_password,
+    url=mysql_url,
+    database=mysql_dbname
+)
+print('mysql_connection_url : ', mysql_connection_url)
+
+try:
+    mysql_engine = create_engine(mysql_connection_url)        
+
+except SQLAlchemyError as err:
+    logger.error(err)
+
+
+# Init users for authent
+users = Users(conf, logger, mysql_engine, mysql_encrypt_key)
+
 # Split, cleaning, encoding
 X_train, X_test, y_train, y_test = pre_processing(conf, sampling=False)
 
@@ -45,7 +85,6 @@ http_responses = {
 }
 
 def check_authent_credentials(credentials: HTTPBasicCredentials=Depends(security)):
-    users = Users(conf, logger)
     result = users.verify_username_password(credentials.username, credentials.password)
     if result < 1:
         raise HTTPException(
@@ -102,5 +141,3 @@ async def model_perf(model_name: str, username: str = Depends(check_authent_cred
         raise HTTPException(
                 status_code=401,
                 detail='Incorrect username or password')
-
-
