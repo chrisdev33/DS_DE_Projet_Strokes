@@ -20,9 +20,13 @@ Projet Strokes (ML + Indus)
 
 ## Choix techniques
 * Pour le développement de l'api, utilisation de la librairie fastapi :
-  * 4 endpoints ont été développés :
-    * 
-* Les utilisateurs sont stockées dans une table mysql (base de données Strokes) 
+  * 3 endpoints ont été développés :
+    * /status : Vérifier si le statut de l'API
+    * /auth_test : Vérifier l'authentification de l'API
+    * /model/perf : Récupérér les performances d'un modèle (Régression linéaire, Decision Tree, KNeighbors)
+* Les utilisateurs sont stockées dans une table users de la base de données mysql "Strokes"
+  * Les mots de passe sont encryptés avec une fonction mysql AES_ENCRYPT avec une clé ayant la valeur "strokes"
+  * Cette clé est stocké dans une variable d'environnement du container
 
 <br>
 
